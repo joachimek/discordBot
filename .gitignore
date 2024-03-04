@@ -1,0 +1,4 @@
+/node_modules
+# .env file is ignored for privacy reasons, you need to create one with your bot token when running this app
+.env
+package-lock.json
