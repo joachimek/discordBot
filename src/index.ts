@@ -1,25 +1,16 @@
-import { config } from "dotenv";
-import { Client, GatewayIntentBits } from "discord.js";
-import messageListener from "./core/messages/messages.listener";
+import messageListener from "./main/messages.listener";
+import envConfigurer from "./core/env.configurer";
+import clientConstructor from "./core/client.constructor";
+import discordProvider from "./core/discord.provider";
 
 //  configuring .env
-config();
-console.log(".env configured")
+envConfigurer();
 
 //  creating discord.js client
-const client = new Client({
-  intents: [
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.MessageContent,
-  ],
-});
-console.log("discord client created successfully")
+const client = clientConstructor();
 
 //  logging into discord
-client.login(process.env.DISCORD_TOKEN);
-console.log("discord login successful")
+discordProvider.login(client);
 
 //  starting listener
-messageListener(client)
+messageListener(client);

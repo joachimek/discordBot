@@ -1,26 +1,23 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = require("dotenv");
-const discord_js_1 = require("discord.js");
-const messages_listener_1 = __importDefault(require("./core/messages/messages.listener"));
+const messages_listener_1 = __importDefault(
+  require("./main/messages.listener"),
+);
+const env_configurer_1 = __importDefault(require("./core/env.configurer"));
+const client_constructor_1 = __importDefault(
+  require("./core/client.constructor"),
+);
+const discord_provider_1 = __importDefault(require("./core/discord.provider"));
 //  configuring .env
-(0, dotenv_1.config)();
-console.log(".env configured");
+(0, env_configurer_1.default)();
 //  creating discord.js client
-const client = new discord_js_1.Client({
-    intents: [
-        discord_js_1.GatewayIntentBits.DirectMessages,
-        discord_js_1.GatewayIntentBits.GuildMessages,
-        discord_js_1.GatewayIntentBits.Guilds,
-        discord_js_1.GatewayIntentBits.MessageContent,
-    ],
-});
-console.log("discord client created successfully");
+const client = (0, client_constructor_1.default)();
 //  logging into discord
-client.login(process.env.DISCORD_TOKEN);
-console.log("discord login successful");
+discord_provider_1.default.login(client);
 //  starting listener
 (0, messages_listener_1.default)(client);
